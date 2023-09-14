@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'war'
+//    id 'jar'
     id 'org.springframework.boot' version '3.1.3'
     id 'io.spring.dependency-management' version '1.1.3'
 }
@@ -35,4 +36,19 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'ru.drmiki.help_for_capy.HelpForCapyApplication'
+
+        )
+    }
+}
+bootWar {
+    setArchivesBaseName( 'capybara')
+    archiveFileName.set 'capybara.war'
 }

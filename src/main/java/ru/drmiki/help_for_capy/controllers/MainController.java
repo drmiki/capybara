@@ -28,12 +28,13 @@ public class MainController {
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Phrases> showAll () {
+
         return phrasesRepository.findAll();
     }
 
     @GetMapping(path="/addnew")
     public String addnew(){
-        return "/addnew";
+        return "addnew";
     }
 
     @RequestMapping(value = "/")
@@ -46,11 +47,11 @@ public class MainController {
         var el = list.get((int) randomIndex);
         model.addAttribute("message1", el.getEngName());
         model.addAttribute("message2", el.getRusName());
-        return "/index";
+        return "index";
     }
 
     @GetMapping (value = "/test")
     public String testController() {
-        return "/test";
+        return "test";
     }
 }
