@@ -27,6 +27,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
@@ -48,7 +52,11 @@ jar {
         )
     }
 }
+
+war {
+    enabled=true
+}
 bootWar {
-    setArchivesBaseName( 'capybara')
-    archiveFileName.set 'capybara.war'
+    setArchivesBaseName('Capybara')
+    archiveFileName.set 'Capybara.war'
 }

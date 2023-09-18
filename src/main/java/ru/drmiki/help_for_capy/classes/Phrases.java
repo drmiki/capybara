@@ -1,10 +1,9 @@
 package ru.drmiki.help_for_capy.classes;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity(name = "phrases")
@@ -17,4 +16,9 @@ public class Phrases {
     private String engName;
     private String rusName;
 
+    @ManyToMany
+    private List<Category> category;
+
+    @ManyToOne
+    private User user;
 }
