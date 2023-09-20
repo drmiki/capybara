@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.drmiki.help_for_capy.services.CustomUserDetailsService;
 
 
@@ -24,13 +25,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("\"/login**\",\"/logout**\",\"/register\",\"/styles.css\",\"/scripts.js\"").permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/login")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/register")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/styles.css")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/scripts.js")).permitAll()
                         .anyRequest().authenticated()
-                );
-        http
-                .formLogin(formLogin ->
+                )
+                     .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login")
                                 .permitAll());

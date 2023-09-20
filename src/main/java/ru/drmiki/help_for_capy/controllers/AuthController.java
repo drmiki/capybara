@@ -1,5 +1,6 @@
 package ru.drmiki.help_for_capy.controllers;
 
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -45,7 +46,7 @@ public class AuthController {
     public String register(HttpServletRequest request, HttpServletResponse response, Model model){
         User user = new User();
         model.addAttribute("user",user);
-        return "register";
+        return "./register";
     }
 
     @RequestMapping(value = "/logout",method = RequestMethod.GET)

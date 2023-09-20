@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'se.jiderhamn.classloader-leak-prevention:classloader-leak-prevention-servlet3:2.7.0'
 
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 
@@ -57,6 +58,6 @@ war {
     enabled=true
 }
 bootWar {
-    setArchivesBaseName('Capybara')
-    archiveFileName.set 'Capybara.war'
+    setArchivesBaseName('capybara')
+    archiveFileName.set 'capybara.war'
 }
