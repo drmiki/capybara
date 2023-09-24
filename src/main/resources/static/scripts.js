@@ -1,3 +1,5 @@
+
+
 function show_hide_password(target){
     var input = document.getElementById('password');
     if (input.getAttribute('type') == 'password') {
@@ -51,5 +53,18 @@ document.addEventListener("DOMContentLoaded", function(){
         close_offcanvas();
     });
 
+});
+$(function () {
+    'use strict';
+
+    $('[data-toggle="offcanvas"]').on('click', function () {
+        $('.offcanvas-collapse').addClass('open');
+        $('body').addClass('offcanvas-open');
+    })
+    $('[data-toggle="offcanvas-close"]').on('click', function () {
+        $('.offcanvas-collapse').removeClass('open');
+        $('body').removeClass('offcanvas-open');
+
+    })
 });
 // DOMContentLoaded  end

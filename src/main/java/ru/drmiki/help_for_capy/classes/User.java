@@ -30,6 +30,13 @@ public class User {
     @OneToMany
     private List<Phrases> phrases;
 
+    //For quiz
+    @Column(name = "countOfAllQuesitions")
+    private Integer countOfAllQuesitions;
+
+    @Column(name = "countOfRightQuestions")
+    private Integer countOfRightQuestions;
+
 
     public User(String email, String password, String firstName, String lastName) {
         this.email = email;

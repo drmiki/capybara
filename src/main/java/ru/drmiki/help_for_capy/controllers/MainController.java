@@ -26,6 +26,76 @@ public class MainController {
     UserRepository userRepository;
 
 
+    @GetMapping(path="/quiz")
+    //public @ResponseBody List<Phrases> quiz(){
+    public  String quiz(@RequestParam(required = false) String res, Model model){
+
+        User serchUser = userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (serchUser.getCountOfAllQuesitions() == null) serchUser.setCountOfAllQuesitions(0);
+        if (serchUser.getCountOfRightQuestions() == null) serchUser.setCountOfRightQuestions(0);
+        userRepository.save(serchUser);
+
+
+        Integer newCount = serchUser.getCountOfAllQuesitions();
+        Integer countOfRightQuestions = serchUser.getCountOfRightQuestions();
+
+
+
+
+          //if (all == null) all ="sadasdasd";
+//        if (all == null) all =Long.valueOf(0);
+//           all = Long.valueOf(1);
+
+//        System.out.println(all);
+
+
+        //Adding 10 questions
+        List<Phrases> listPhrases10 = new ArrayList<>();
+        phrasesRepository.findAll().iterator().forEachRemaining(e -> listPhrases10.add(e));
+
+        Phrases resultOfRandom = listPhrases10.get(new Random().nextInt(listPhrases10.size()));
+
+        Map<Phrases, Boolean> question = new HashMap<>();
+
+        listPhrases10.remove(resultOfRandom);
+        question.put(resultOfRandom,true);
+
+        for (Phrases phrase : listPhrases10) {
+            if (question.size() > 3) break;
+            question.put(phrase, false);
+        }
+        System.out.println(question);
+        //return  listPhrases10;
+        TreeMap<Phrases, Boolean> sorted = new TreeMap<>(question);
+        List<Phrases> keys = new ArrayList(sorted.keySet());
+        Collections.shuffle(keys);
+        Map<Phrases, Boolean> shuffleMap = new LinkedHashMap<>();
+        keys.forEach(k -> shuffleMap.put(k, sorted.get(k)));
+        model.addAttribute("map",shuffleMap) ;
+        model.addAttribute("all",newCount) ;
+        model.addAttribute("counter",countOfRightQuestions) ;
+        return "quiz";
+    }
+
+    @PostMapping(path = "/quiz")
+    public String quizPost (@RequestParam(required = false) String res){
+
+        //Initiation  elem of repo
+        User serchUser = userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        Integer newCount = serchUser.getCountOfAllQuesitions()+1;
+        serchUser.setCountOfAllQuesitions(newCount);
+        userRepository.save(serchUser);
+
+        if (res != null && Boolean.valueOf(res)==true){
+            if (serchUser.getCountOfRightQuestions() == null) serchUser.setCountOfRightQuestions(0);
+            newCount = serchUser.getCountOfRightQuestions()+1;
+            serchUser.setCountOfRightQuestions(newCount);
+            userRepository.save(serchUser);
+        }
+
+        return "redirect:/quiz";
+    }
 
     @PostMapping(path = "/add")
     public String addNewPhrases(@RequestParam String engName, @RequestParam String rusName, @RequestParam Long[] categories, Model model) {
@@ -39,6 +109,7 @@ public class MainController {
         }
         newPhrase.setCategory(listCat);
         User serchUser = userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("categories", categoryRepository.findAll());
         //newPhrase.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         newPhrase.setUser(serchUser);
         phrasesRepository.save(newPhrase);
@@ -148,6 +219,15 @@ public class MainController {
                 model.addAttribute("message1", error);
                 model.addAttribute("message2", error);
                 model.addAttribute("categories", null);
+                model.addAttribute("allCategories", categoryRepository.findAll());
+                return "index";
+            }else {
+                var randomIndex = list.size() * Math.random();
+                var el = list.get((int) randomIndex);
+                model.addAttribute("message1", el.getEngName());
+                model.addAttribute("message2", el.getRusName());
+                //add category
+                model.addAttribute("categories", el.getCategory());
                 model.addAttribute("allCategories", categoryRepository.findAll());
                 return "index";
             }

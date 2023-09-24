@@ -30,6 +30,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/login")).permitAll()
+//                        .requestMatchers(AntPathRequestMatcher.antMatcher("/quiz")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/register")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/styles.css")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/scripts.js")).permitAll()

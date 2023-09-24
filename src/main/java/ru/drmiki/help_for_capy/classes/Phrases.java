@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Entity(name = "phrases")
-public class Phrases {
+public class Phrases implements Comparable<Phrases>{
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -21,4 +21,8 @@ public class Phrases {
 
     @ManyToOne
     private User user;
+    @Override
+    public int compareTo(Phrases o) {
+        return (int)(this.id - o.getId());
+    }
 }
